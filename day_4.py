@@ -20,6 +20,7 @@ a, b = 12.1, 23
 #     total_floats = [n for n in (a, b) if type(n) is float]
 #     return len(total_floats)
 
+# I LOVE THIS
 def only_floats(*data):
     return sum(type(x) is float for x in data)
 
