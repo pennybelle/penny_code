@@ -13,15 +13,14 @@ def plot_points(s, t):
     for i in range(s, t):
         y_list.append(sig(i))
 
-    x_array = np.array(x_list)
-    y_array = np.array(y_list)
+    x_array, y_array = np.array(x_list), np.array(y_list)
     spline = make_interp_spline(x_array, y_array)
     x = np.linspace(x_array.min(), x_array.max(), 500)
     y = spline(x)
 
 
     plt.plot(x, y)
-    plt.title('Sigma Function ')
+    plt.title('Sigma Function')
     plt.xlabel('X')
     plt.ylabel('Y')
     plt.show()
