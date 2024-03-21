@@ -23,7 +23,7 @@ def run_collatz(x, rng): # run the conjecture in a loop
     return y_points
 
 def plot_points(start_val, stop_val):
-    print(f'Running calculations {start_val:,} through {stop_val:,}...')
+    print(f'Running calculations for {start_val:,} through {stop_val:,}...')
     y_points = run_collatz(start_val, stop_val)
     x_points = [x for x in range(start_val, stop_val)]
     print('Plotting coordinates...')
@@ -31,7 +31,17 @@ def plot_points(start_val, stop_val):
     plt.title(f'Collatz Conjecture | Testing {start_val:,} to {stop_val:,}')
     plt.xlabel("Loop Start Value")
     plt.ylabel("Loop Range")
-    print('Displaying coodinates...')
-    plt.show()
+    print('Saving plot...')
+    plt.savefig(f'Collatz_Array_{start_val}_{stop_val}.png')
+    # plt.show()
 
-plot_points(1, 10_000_000)
+# plot_points(1, 10_000_000) # for stable execution do not exceed a 1,000,000 unit gap
+
+def multi_plot(multiplier, start_val, stop_val):
+    addition = stop_val
+    for x in range(multiplier):
+        plot_points(start_val, stop_val)
+        start_val = stop_val + 1
+        stop_val += addition
+
+multi_plot(10, 1, 1_000_000)
