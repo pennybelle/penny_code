@@ -32,10 +32,23 @@ def plot_points(start_val, stop_val):
     plt.xlabel("Loop Start Value")
     plt.ylabel("Loop Range")
     print('Saving plot...')
-    plt.savefig(f'Collatz_Array_{start_val}_{stop_val}.png')
-    # plt.show()
+    plt.savefig(f'Collatz_Array_{start_val}_{stop_val}.png') # save graph to png
+    # plt.show() # show graph in gui
 
-# plot_points(1, 10_000_000) # for stable execution do not exceed a 1,000,000 unit gap
+def plot_step_freq(start_val, stop_val):
+    print(f'Running calculations for {start_val:,} through {stop_val:,}...')
+    x_points = run_collatz(start_val, stop_val)
+    y_points = [y for y in range(start_val, stop_val)]
+    print('Plotting coordinates...')
+    plt.plot(x_points, y_points, marker=',', linestyle='')
+    plt.title(f'Collatz Conjecture Step Frequency | Plotting {start_val:,} to {stop_val:,}')
+    plt.xlabel(f"X")
+    plt.ylabel("Number of steps for X to reach 1")
+    print('Saving plot...')
+    plt.savefig(f'Collatz__Step_Freq_Array_{start_val}_{stop_val}.png') # save graph to png
+
+plot_step_freq(1, 1_000_000) 
+# plot_points(1, 1_000_000) # for stable execution do not exceed a 1,000,000 unit gap
 
 def multi_plot(multiplier, start_val, stop_val):
     addition = stop_val
