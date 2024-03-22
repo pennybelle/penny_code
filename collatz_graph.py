@@ -28,9 +28,9 @@ class cg():
         y_points = []
 
         for x in range(x, rng):
-            step, new_path = self.collatz(x)
+            step = self.collatz(x)
             y_points.append(step) # conjecture recursion function
-            if new_path: paths += 1
+            # if new_path: paths += 1
             if not x in cache.keys(): self.global_cache[x] = step
 
         return y_points, paths
@@ -38,16 +38,17 @@ class cg():
     def plot_points(self, start_val, stop_val):
         print(f'Running calculations for {start_val:,} through {stop_val:,}...')
         start_time = time.time()
-        y_points, paths = self.run_collatz(start_val, stop_val, self.global_cache)
+        y_points = self.run_collatz(start_val, stop_val, self.global_cache)
         stop_time = time.time()
-        print(f'Took {stop_time - start_time} seconds...')
+        calc_time = stop_time - start_time
         x_points = [x for x in range(start_val, stop_val)]
+        print(f'Took {calc_time} seconds...')
 
         print('Plotting coordinates...')
         plt.plot(x_points, y_points, marker=',', linestyle='')
         plt.xlabel('Loop Start Value') # set X axis label on graph
         plt.ylabel('Loop Range') # set Y axis label on graph
-        plt.title(f'Collatz Conjecture | Testing {start_val:,} to {stop_val:,} | Unique paths: {paths}')
+        plt.title(f'Collatz Conjecture | Plotting {start_val:,} to {stop_val:,} | Calculations took {calc_time} secounds')
 
         # print('Saving plot...')
         # plt.savefig(f'Collatz_Array_{start_val}_{stop_val}.png') # save graph to png
