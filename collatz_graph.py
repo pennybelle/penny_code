@@ -51,6 +51,7 @@ class cg():
         plt.plot(x_points, y_points, marker=',', linestyle='')
         plt.xlabel('Loop Start Value') # set X axis label on graph
         plt.ylabel('Loop Range') # set Y axis label on graph
+        # plt.xscale('log')
         plt.title(f'Collatz Conjecture | Plotting {start_val:,} to {stop_val:,} | Calculations took {calc_time:.2f} secs')
 
         # print('Saving plot...')
