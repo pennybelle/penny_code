@@ -1,0 +1,16 @@
+global_cache = {}
+
+def collatz(x, step=0):
+    if x in global_cache.keys():  
+        return step + global_cache[x]
+    elif x == 1: # ends the recursion, returns the score (how many steps)
+        return step
+    elif x % 2 == 0: # if even, divide by 2
+        x //= 2
+    else: # if odd, multiply by 3 and add 1
+        x = x * 3 + 1
+    step += 1
+
+    return collatz(x, step)
+
+print(collatz(119))
