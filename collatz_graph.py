@@ -5,42 +5,47 @@ setrecursionlimit(10_000)
 
 class cg():
     def __init__(self):
-        self.global_cache = {}
+        self.cache = {}
 
-    def collatz(self, x, seq_len=0):
-        if x in self.global_cache.keys():  
-            return seq_len + self.global_cache[x]
-        elif x == 1: # ends the recursion, returns the score (how many steps)
-            return seq_len
-        elif x % 2 == 0: # if even, divide by 2
-            x //= 2
-        else: # if odd, multiply by 3 and add 1
-            x = x * 3 + 1
-        seq_len += 1
 
-        return self.collatz(x, seq_len)
+    def collatz(self, x): # TODO: recursively build cache up backwards
+        if x in self.cache:  
+            return self.cache[x]
+        elif x == 1: # ends the recursion, returns the sequence length
+            self.cache[x] = 0
+            return 0
+        seq_freq = self.collatz(x//2 if x%2 == 0 else x*3+1) + 1
+        self.cache[x] = seq_freq
+        return seq_freq
 
-    def run_collatz(self, x, rng, cache): # run the conjecture in a loop
-        y_points = []
+
+    def collatz_range(self, x, rng): # run the conjecture in a loop
+        seq_len_list = []
         # paths = 0 # TODO: unique pathfinder
 
-        for x in range(x, rng):
-            seq_len = self.collatz(x)
-            y_points.append(seq_len) # conjecture recursion function
-            if not x in cache.keys(): self.global_cache[x] = seq_len
+        # if x > 1:
+        #     for i in range(1, x):
+        #         self.collatz(i)
 
-        return y_points
+        for x in range(x, rng):
+            seq_len = self.collatz(x) # conjecture recursion function
+            seq_len_list.append(seq_len)
+            # print(self.cache)
+            # self.cache[x] = seq_len
+
+        return seq_len_list
+
 
     def plot_collatz(self, start, stop, display=True, save=False):
         print(f'Running calculations for {start:,} through {stop:,}...')
         start_time = time()
-        y_points = self.run_collatz(start, stop, self.global_cache)
+        y_points = self.collatz_range(start, stop)
         secs = time() - start_time # keep track of calculation time
         x_points = [x for x in range(start, stop)]
         print(f'Took {secs:.2f} seconds...')
 
         print('Dumping cache...')
-        self.global_cache.clear() # sweet relief
+        self.cache.clear() # sweet relief
 
         print('Plotting coordinates...')
         plt.plot(x_points, y_points, marker=',', linestyle='')
@@ -56,25 +61,24 @@ class cg():
             print('Displaying plot...')
             plt.show() # show graph in gui
 
-    def plot_step_freq(self, start, stop, display=True, save=False):
+
+    def plot_seq_len(self, start, stop, display=True, save=False):
         print(f'Running Calculations for {start:,} through {stop:,}...')
         start_time = time()
-        seq_len_list = self.run_collatz(start, stop, self.global_cache)
+        seq_len_list = self.collatz_range(start, stop)
         secs = time() - start_time # keep track of calculation time
         print(f'Took {secs:.2f} seconds...')
 
         print('Dumping cache...')
-        self.global_cache.clear() # sweet relief
+        self.cache.clear() # sweet relief
 
         print('Parsing data...')
         data = {}
         for seq_len in seq_len_list:
-            if seq_len in data:
-                data[seq_len] += 1
-            else:
-                data[seq_len] = 1
+            if seq_len in data: data[seq_len] += 1
+            else: data[seq_len] = 1
 
-        print('Sorting data and dumping local cache...')
+        print('Sorting data and dumping local data...')
         data = sorted(list(data.items())) # convert dict(data) to sorted list of dict(data) contents
         x_points = [float(t[0]) for t in data] # parse nested tuples for value in index 0
         y_points = [float(t[1]) for t in data] # parse nested tuples for value in index 1
@@ -84,7 +88,7 @@ class cg():
         plt.plot(x_points, y_points, marker='.', markersize=1, linestyle='')
         plt.xlabel('Sequence Length') # set X axis label on graph
         plt.ylabel('Frequency') # set Y axis label on graph
-        plt.title(f'Collatz Conjecture | Sequence Length Analysis [{start:,}, {stop:,}] | Calculations took {secs:.1f} secs')
+        plt.title(f'Sequence Length Analysis [{start:,}, {stop:,}] | Calculations took {secs:.1f} secs')
 
         if save:
             print('Saving plot to image...')
@@ -94,17 +98,21 @@ class cg():
             print('Displaying plot...')
             plt.show() # show graph in gui
 
-while True:
-    start = int(input('Start Value: ').replace(',', ''))
-    stop = int(input('Stop Value: ').replace(',', ''))
-    choice = input('Choose Plot Type:\n\t'
-                   '[c] Original Collatz Conjecture\n\t'
-                   '[s] Sequence Frequency Analysis\n').lower()
+
+# cg().plot_collatz(1, 10_000_000, display=True, save=False)
+cg().plot_seq_len(1, 100_000_000, display=True, save=True)
+
+# while True:
+#     start = int(input('Start Value: ').replace(',', ''))
+#     stop = int(input('Stop Value: ').replace(',', ''))
+#     choice = input('Choose Plot Type:\n\t'
+#                    '[c] Original Collatz Conjecture\n\t'
+#                    '[s] Sequence Frequency Analysis\n').lower()
     
-    # wider gap between values leads to larger memory usage
-    if choice == 'c': cg().plot_collatz(start, stop, display=True, save=False)
+#     # wider gap between values leads to larger memory usage
+#     if choice == 'c': cg().plot_collatz(start, stop, display=True, save=False)
 
-    elif choice == 's': cg().plot_step_freq(start, stop, display=True, save=False)
+#     elif choice == 's': cg().plot_seq_freq(start, stop, display=True, save=False)
 
-    elif choice in ('e', 'exit', 'quit'): break
-    else: print('Invalid entry...')
+#     elif choice in ('e', 'exit', 'quit'): break
+#     else: print('Invalid entry...')
