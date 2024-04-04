@@ -24,10 +24,12 @@ def plotter(title, x, y, xlab, ylab, marker='.', markersize=1, linestyle=''):
     plt.xlabel(xlab)
     plt.ylabel(ylab)
     plt.plot(x, y, marker, markersize, linestyle)
+    collatz().clear() # redundant data dump
     plt.savefig(title+'.png')
     plt.show()
 
 def run_val(i, j): # run conjecture in range of i & j
+    print('Running Calculations...')
     start = time() # timer
     c = collatz() # set class dict to var for reference
     for x in range(i, j+1): c[x] # fill cache.dict[i through j+1]
@@ -45,4 +47,15 @@ def plot_seq_len(i, j):
     c.clear() # dump cache
     plotter(title, points.keys(), points.values(), xlab, ylab) # plot results on graph
 
-plot_seq_len(1, 1_000_000)
+def plot_collatz_graph(i, j):
+    c, t = run_val(i, j)
+    title = f'Collatz Conjecture [{i:,}, {j:,}] {t:.0f}secs'
+    xlab = 'X'
+    ylab = 'Sequence Length for X'
+    plotter(title, c.keys(), c.values(), xlab, ylab, marker=',')
+
+user_choice = input('Choose Plot Type ():\n\t'
+                    '[c] Original Collatz Conjecture\n\t'
+                    '[s] Sequence Frequency Analysis\n').lower()
+if user_choice == 's': plot_seq_len(int(input('Start Value: ')), int(input('Stop Value: ')))
+if user_choice == 'c': plot_collatz_graph(int(input('Start Value: ')), int(input('Stop Value: ')))
