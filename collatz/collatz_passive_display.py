@@ -79,11 +79,11 @@ def game(x):
 {box_color}{box}{color_reset}
 
 {box_color}Wins:      {color_reset}
-0
+\t0
 {box_color}Loses:     {color_reset}
-{loses}
+\t{loses}
 {box_color}High Score:{color_reset}
-{current_score}\n''')
+\t{current_score}\n''')
 
         x = new_value + 1  # add 1 to previous input/new value to progress the game to next number
         loses += 1  # records losses in the session, displays them in the game over screen
