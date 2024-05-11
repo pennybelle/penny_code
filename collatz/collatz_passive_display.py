@@ -43,7 +43,7 @@ def game(x):
         new_value = x
 
         # print new value at start of new game
-        print(f'\n{new_color}New Value: {color_reset}\n\t{x}\n')
+        print(f'\n{new_color}New Value: {color_reset}\n{x}\n')
 
         # calculation loop
         while x != 1:  # equation loop until x reaches 1 (which causes an infinite loop 4->2->1 thus game over)
@@ -79,11 +79,11 @@ def game(x):
 {box_color}{box}{color_reset}
 
 {box_color}Wins:      {color_reset}
-\t0
+0
 {box_color}Loses:     {color_reset}
-\t{loses}
+{loses}
 {box_color}High Score:{color_reset}
-\t{current_score}\n''')
+{current_score}\n''')
 
         x = new_value + 1  # add 1 to previous input/new value to progress the game to next number
         loses += 1  # records losses in the session, displays them in the game over screen
