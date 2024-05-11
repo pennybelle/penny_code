@@ -1,7 +1,7 @@
 import time
 from os import system, path, name
 
-log = 'HighScore.txt'
+log = 'HighScore.log'
 
 # TODO: create clicker game where x += 1 when the user clicks sequence would splice
 # together to create the ability to control your score if you never stop clicking.
@@ -17,31 +17,7 @@ def start():
         record = open(log, 'w+')
         record.writelines(['Best Seed: 0\nHighscore: 0'])
         record.close()
-    print('\n' * 7)
-    print(r'''
-                        _____/\\\\\\\\\\______________________________________/\\\_        
-                         ___/\\\///////\\\_________________________________/\\\\\\\_       
-                          __\///______/\\\_______________________/\\\______\/////\\\_      
-                           _________/\\\//_____/\\\____/\\\______\/\\\__________\/\\\_     
-                            ________\////\\\___\///\\\/\\\/____/\\\\\\\\\\\______\/\\\_    
-                             ___________\//\\\____\///\\\/_____\/////\\\///_______\/\\\_   
-                              __/\\\______/\\\______/\\\/\\\________\/\\\__________\/\\\_  
-                               _\///\\\\\\\\\/_____/\\\/\///\\\______\///___________\/\\\_ 
-                                ___\/////////______\///____\///______________________\///__
 
-                                Warning: This game can cause seizures, please take caution!
-                                
-                                                            Loading:
-                                                            
-                                ''', end='', flush=True)
-    loops = 1
-    load_bar = 0.00005
-    while loops < 61:
-        print('█', end='', flush=True)
-        time.sleep(load_bar)
-        loops += 1
-        load_bar += 0.0015
-    time.sleep(5)
     # set terminal size
     size = 'mode 54,50'
     system(size)
@@ -65,9 +41,11 @@ def game(x):
 
     while True:  # game loop continues forever because this game cannot be won
         new_value = x
-        print(f'''
-{new_color}New Value: {color_reset}
-{x}''')  # print new value at start of new game
+
+        # print new value at start of new game
+        print(f'\n{new_color}New Value: {color_reset}\n\t{x}\n')
+
+        # calculation loop
         while x != 1:  # equation loop until x reaches 1 (which causes an infinite loop 4->2->1 thus game over)
             steps += 1
             if x % 2 == 0:  # if x is even divide by 2
@@ -77,16 +55,23 @@ def game(x):
                 x = 3 * x + 1
                 print(f'{green_box}  {color_reset} {steps}\t\b{green_text}{x}{color_reset}')
             time.sleep(delay * .05)  # delay between each run of the equation 
-        if steps > current_score:  # if current score is higher than recorded score, update recorded to current
+
+        # if current score is higher than recorded score, update recorded to current
+        if steps > current_score:
             current_score = steps
-        if highscore > current_score:  # if highscore in log file is higher than current score, update current
+
+        # if highscore in log file is higher than current score, update current
+        if highscore > current_score:
             current_score = highscore
-        elif highscore < current_score:  # else set current score as new highscore in log file
+
+        # else set current score as new highscore in log file
+        elif highscore < current_score:
             highscore = current_score  # this line is needed to prevent log file from giving incorrect seed #
             record.close()  # close log file (in read mode)
             record = open(log, 'w')  # open log file (in write mode)
             record.writelines([f'Best Seed: {new_value}\nHighscore: {current_score}'])  # write new seed & score
         record.close()  # close log file (in write mode), reopens at beginning of new game
+
         # game over screen
         print(f'''
 {box_color}{box}{color_reset}
@@ -99,10 +84,11 @@ def game(x):
 {loses}
 {box_color}High Score:{color_reset}
 {current_score}\n''')
+
         x = new_value + 1  # add 1 to previous input/new value to progress the game to next number
         loses += 1  # records losses in the session, displays them in the game over screen
         steps = int(0)  # reset current score for new game
-        time.sleep(delay * .5)
+        time.sleep(delay * .75)
         clear()
 
 
