@@ -3,6 +3,9 @@ from os import system, path, name
 
 log = 'HighScore.txt'
 
+# TODO: create clicker game where x += 1 when the user clicks sequence would splice
+# together to create the ability to control your score if you never stop clicking.
+
 def file_check():
     if path.exists(log): return True
     else: return False
@@ -63,8 +66,8 @@ def game(x):
     while True:  # game loop continues forever because this game cannot be won
         new_value = x
         print(f'''
-                     {new_color}New Value: {color_reset}
-                     {x}''')  # print new value at start of new game
+{new_color}New Value: {color_reset}
+{x}''')  # print new value at start of new game
         while x != 1:  # equation loop until x reaches 1 (which causes an infinite loop 4->2->1 thus game over)
             steps += 1
             if x % 2 == 0:  # if x is even divide by 2
@@ -86,16 +89,16 @@ def game(x):
         record.close()  # close log file (in write mode), reopens at beginning of new game
         # game over screen
         print(f'''
-                     {box_color}{box}{color_reset}
-                     {box_color} GAME OVER {color_reset}
-                     {box_color}{box}{color_reset}
-                     
-                     {box_color}Wins:      {color_reset}
-                     0
-                     {box_color}Loses:     {color_reset}
-                     {loses}
-                     {box_color}High Score:{color_reset}
-                     {current_score}\n''')
+{box_color}{box}{color_reset}
+{box_color} GAME OVER {color_reset}
+{box_color}{box}{color_reset}
+
+{box_color}Wins:      {color_reset}
+0
+{box_color}Loses:     {color_reset}
+{loses}
+{box_color}High Score:{color_reset}
+{current_score}\n''')
         x = new_value + 1  # add 1 to previous input/new value to progress the game to next number
         loses += 1  # records losses in the session, displays them in the game over screen
         steps = int(0)  # reset current score for new game
