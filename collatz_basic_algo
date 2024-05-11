@@ -1,0 +1,33 @@
+# # old algo using global cache
+# global_cache = {}
+
+# def collatz(x, step=0):
+#     if x in global_cache.keys():  
+#         return step + global_cache[x]
+#     elif x == 1: # ends the recursion, returns the score (how many steps)
+#         return step
+#     elif x % 2 == 0: # if even, divide by 2
+#         x //= 2
+#     else: # if odd, multiply by 3 and add 1
+#         x = x * 3 + 1
+#     step += 1
+
+#     return collatz(x, step)
+
+# print(collatz(119))
+
+############################################
+
+# # algo made by michelle
+# def calc_seq(self, x):
+    # # this returns weird data...not sure why yet
+    # if x in self:
+    #     self[x] = self[x] + 1
+    #     return self[x]
+    # if x ==1:
+    #     self[x] = 0
+    #     return 0
+    # seq_freq = self.calc_i(x*3+1 if x%2 else x//2) + 1
+    
+    # self[x] = seq_freq
+    # return seq_freq

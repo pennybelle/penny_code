@@ -2,9 +2,7 @@ from math import log
 
 n = 2
 s = .75
-
 d = log(n) / log(s)
-
 
 print(d)
 
