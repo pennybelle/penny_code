@@ -5,7 +5,7 @@ class collatz(dict): # subclass dict is used as cache
 
     def __getitem__(self, x):
         v = self.get(x, None) # value (v) is cache dict[x] if not None else dict[x] = None
-        if not v is None: return v # if x is in cache return value at key x
+        if v: return v # if x is in cache return value at key x
         v = self.calc_seq(x) # else set value using conjecture function
         self[x] = v # then fill cache dict[x] with value (v)
         return v # return value of cache dict[x]
@@ -30,8 +30,8 @@ def plotter(title, x, y, xlab, ylab, marker='.', markersize=1, linestyle=''):
 
 def run_val(i, j): # run conjecture in range of i & j
     print('Running Calculations...')
-    start = time() # timer
     c = collatz() # set class dict to var for reference
+    start = time() # timer
     for x in range(i, j+1): c[x] # fill cache.dict[i through j+1]
     t = time() - start # timer results
     print(f'Calculation duration: {t:.2f} sec')
