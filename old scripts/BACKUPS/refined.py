@@ -5,7 +5,7 @@ import re
 
 from discord.ext import commands, tasks
 
-TOKEN = "ODExNzg2MTg3MDU2NDgwMjc2.YC3QzQ.cOLNjcXB6-qpy2AwKmSj5R8S3Lc"
+TOKEN = "TOKEN"
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or("!"), description='Relatively simple autodelete bot!')
 
